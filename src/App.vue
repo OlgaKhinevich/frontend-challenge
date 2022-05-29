@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "@/assets/scss/_media.scss";
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
   * {
     margin: 0;
@@ -27,7 +28,6 @@ export default {
   body {
     font-family: 'Roboto', sans-serif;;
     background-color: $body-bg;
-    padding-top: 23px;
     a { 
       text-decoration: none;
       color: unset; 

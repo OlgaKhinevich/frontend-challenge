@@ -11,6 +11,7 @@
       </figure>
       <div v-if="!cats">Нет фото котиков :(</div>
     </div>
+    <div v-if="isLoading" class="cats-loading">... загружаем еще котиков ...</div>
   </div>
 </template>
 
@@ -18,21 +19,17 @@
 import {getAllFavourites} from '@/assets/lib/favourite.js';
 
 export default {
-  props: ['cats'],
-  data() {
-    return {
-    }  
-  },
+  props: ['cats', 'isLoading'],
   mounted() {
     const favourites = getAllFavourites();
     this.cats.forEach((item) => {
       (favourites.some(fav => fav.id === item.id)) ? item.isFavourite = true : item.isFavourite = false;
     })
-    console.log(localStorage);
   },
   methods: {
     changeFavourite(favouriteItem) {
       favouriteItem.isFavourite = !favouriteItem.isFavourite;
+      this.$forceUpdate();
       const favourites = getAllFavourites();
       if(!favourites.some(item => item.id === favouriteItem.id)) {
         favourites.push(favouriteItem);
@@ -51,16 +48,10 @@ export default {
     padding: 0 62px;
     margin: auto;
     .cats-grid {
-      // column-width: 200px;
-      // column-gap: 30px;
-      max-width: 1920px;
       margin-top: 70px;
-      // display: grid;
-      //grid-template-columns: repeat(5, 1fr);
-      // gap: 30px;
       display: grid;
-      grid-gap: 30px;
       grid-template-columns: repeat(5, 1fr);
+      gap: 30px;
       .cat-item {
         .cat-img {
           width: 100%;
@@ -70,18 +61,30 @@ export default {
         margin: 15px 0;
         padding: 0;
         &:hover { 
-          transform: scale(1.1); 
-          .heart-img { display: block; }
+          transform: scale(2);
+          .cat-img { 
+            object-fit: contain;
+          }
+          .heart-img { 
+            display: block; 
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%)
+          }
         }
         .heart-img {
-          color: red;
-          position: absolute;
-          right: 25px;
-          bottom: 15px;
           display: none;
           font-size: 30px;
         }
       }
     }
+    .cats-loading {
+        margin: 48px 0 31px 0;
+        width: 100%;
+        text-align: center;
+      }
  }
 </style>

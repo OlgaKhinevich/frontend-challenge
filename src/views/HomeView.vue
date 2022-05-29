@@ -1,5 +1,5 @@
 <template>
-  <cats-list :cats="cats" />
+  <cats-list :cats="cats" :isLoading="isLoading" />
 </template>
 
 <script>
@@ -11,7 +11,9 @@ export default {
   data() {
     return {
       cats: [],
-      page: 1
+      page: 1,
+      isLoading: false,
+      shouldLoad: true
     }
   },
   components: {
@@ -27,11 +29,17 @@ export default {
         const scrolled = document.documentElement.scrollTop + document.documentElement.clientHeight;
         const container_height = document.documentElement.scrollHeight;
         const difference = container_height - scrolled;
-        this.page++;
         if(difference < 1) {
-          this.getAllCats();
+          this.fetchCats();
         }
       };
+    },
+    async fetchCats() {
+      if (this.isLoading || !this.shouldLoad) return;
+      this.isLoading = true;
+      this.page++;
+      await this.getAllCats();
+      this.isLoading = false;
     },
     async getAllCats() {
       try {
@@ -44,6 +52,7 @@ export default {
         });
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
+        if (!Object.keys(data).length) this.shouldLoad = false;
         data.forEach(n => this.cats.push(n))
         console.log(this.cats);
       } catch (err) {
