@@ -3,11 +3,11 @@
         <div class="container">
             <nav class="nav">
               <ul>
-                  <li :class="{ active: isActive == 'all' }" @click="isActive='all'">
-                    <router-link to="/" >Все котики</router-link>
+                  <li :class="{ active: isActive == 'all' }" @click="onItemClick('all', '/')" >
+                    <span>Все котики</span>
                   </li>
-                  <li :class="{ active: isActive == 'favourite' }" @click="isActive='favourite'">
-                    <router-link to="/favourite" >Любимые котики</router-link>
+                  <li :class="{ active: isActive == 'favourite' }" @click="onItemClick('favourite', '/favourite')">
+                    <span>Любимые котики</span>
                   </li>
               </ul>
             </nav>
@@ -20,6 +20,13 @@ export default {
   data() {
     return {
       isActive: "all"
+    }
+  },
+  methods:{
+    onItemClick(active_status, path){
+      this.isActive = active_status;
+      if(this.$route.path === path) return;
+      this.$router.push(path);
     }
   }
 }

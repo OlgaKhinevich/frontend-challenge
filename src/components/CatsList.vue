@@ -61,7 +61,7 @@ export default {
         margin: 15px 0;
         padding: 0;
         &:hover { 
-          transform: scale(1.5);
+          transform: scale(1.2);
           .cat-img { 
             object-fit: contain;
           }
