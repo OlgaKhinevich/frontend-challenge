@@ -53,8 +53,7 @@ export default {
         if (!response.ok) throw new Error(response.statusText);
         const data = await response.json();
         if (!Object.keys(data).length) this.shouldLoad = false;
-        data.forEach(n => this.cats.push(n))
-        console.log(this.cats);
+        data.forEach(n => this.cats.push(n));
       } catch (err) {
         console.log(err);
       }
