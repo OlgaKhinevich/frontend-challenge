@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import env from '@/assets/env';
 
 export default {
   data() {
@@ -23,12 +22,12 @@ export default {
   },
   computed: {
     imagesSrc() {
-      return this.isFavourite ? require('@/assets/img/heart_active.svg') : require('@/assets/img/heart.svg')
+      return require('@/assets/img/heart.svg');
     }
   },
-  mounted() {
-    this.getAllCats();
-  },
+  // mounted() {
+  //   this.getFavouriteCats();
+  // },
   methods: {
     handleScroll(e) {
       const container = e.target;
@@ -44,21 +43,12 @@ export default {
       if (this.isLoading || !this.shouldLoad) return;
       this.isLoading = true;
       this.page++;
-      await this.getAllCats();
       this.isLoading = false;
     },
-    async getAllCats() {
+    async getFavouriteCats() {
       try {
-        const response = await fetch(`https://api.thecatapi.com/v1/favourites?page=${this.page}&limit=20`, {
-          method: 'GET',
-          headers: {
-            'X-API-KEY': env.apikey,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) throw new Error(response.statusText);
-        const data = await response.json();
-        this.favourite = data;
+        //this.favourites = getFavourites();
+        //(!this.favourites.length) this.empty = 'Nothing here';
         console.log(this.favourite, "favourite");
       } catch (err) {
         console.log(err);
