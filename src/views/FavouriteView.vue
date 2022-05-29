@@ -1,5 +1,5 @@
 <template>
-  <cats-list :cats="favouriteCats" />
+  <cats-list :cats="favouriteCats" :isLoading="isLoading" />
 </template>
 
 <script>
@@ -43,9 +43,9 @@ export default {
       await this.getFavouriteCats();
       this.isLoading = false;
     },
-    getFavouriteCats() {
-      const data = getFavourites(this.start, this.end);
-      if (!Object.keys(data).length) this.shouldLoad = false;
+    async getFavouriteCats() {
+      const data = await getFavourites(this.start, this.end);
+      if (Object.keys(data).length < (this.end-this.start) || !Object.keys(data).length) this.shouldLoad = false;
       data.forEach(n => this.favouriteCats.push(n));
     }
   }
